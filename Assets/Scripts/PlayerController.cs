@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody playerRigidbody;
 
+    //Movimiento
     public float speed = 20f;
     public float turnspeed = 40f;
     private float horizontalInput;
@@ -12,14 +14,11 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 200f;
     public float downForce = 10000f;
 
+    //Doble Salto
     public bool isOnGround;
     public bool lookRight = true;
     public bool lookLeft;
-    public bool doubleJump = true;
-
-
-    private Rigidbody playerRigidbody;
-
+    public bool doubleJump = true;   
     private bool IsCoolDown = true;
     public float jumpSpeed = 0.5f;//Lo que tarda en poder volver a saltar
 
@@ -27,6 +26,12 @@ public class PlayerController : MonoBehaviour
     public GameObject proyectil;
     private bool IsCoolDownShot = true;
     public float shootSpeed = 4f;
+
+    //Vida
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
+
 
     //Municio
     public int rounds;
@@ -36,11 +41,16 @@ public class PlayerController : MonoBehaviour
     {
         playerRigidbody = GetComponent<Rigidbody>();
 
+        //Max Health
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
     }
 
 
     void Update()
     {
+        Debug.Log(currentHealth);
         Debug.Log(rounds);
         Debug.Log("Salto" +doubleJump);
         Debug.Log("Ground"+isOnGround);
@@ -117,7 +127,15 @@ public class PlayerController : MonoBehaviour
 
             rounds--;
 
+            TakeDamage(10);
+
             //soundManager.SelecionAudio(0, 0.2f);
+        }
+
+        //Health
+        if(currentHealth>maxHealth)
+        {
+            currentHealth = maxHealth;
         }
     }
 
@@ -128,8 +146,9 @@ public class PlayerController : MonoBehaviour
         if (otherCollider.gameObject.CompareTag("Money")) //Moneda
         {
             Destroy(otherCollider.gameObject);
-
             rounds++;
+            HealDamage(10);
+
         }
     }
 
@@ -159,7 +178,18 @@ public class PlayerController : MonoBehaviour
         IsCoolDownShot = true;
     }
 
+    //TakeDamage
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+    }
 
+    void HealDamage(int damage)
+    {
+        currentHealth += damage;
+        healthBar.SetHealth(currentHealth);
+    }
 
 }
 
