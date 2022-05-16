@@ -6,15 +6,26 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider HealthSlider;
+    public float energyLose = 1;
 
-
-    public void SetMaxHealth (int health)
+    private void Start()
     {
-        HealthSlider.maxValue = health;
-        HealthSlider.value = health;
+        StartCoroutine(energyTimer());
     }
+
     public void SetHealth(int health)
     {
         HealthSlider.value = health;
+    }
+
+    public IEnumerator energyTimer()
+    {
+        while(HealthSlider.value > 0)
+        { 
+            yield return new WaitForSeconds(1);
+            HealthSlider.value -= energyLose;
+        }
+       
+
     }
 }

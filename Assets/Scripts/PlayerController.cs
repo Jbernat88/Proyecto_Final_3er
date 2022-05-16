@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     public float jumpForce = 200f;
     public float downForce = 10000f;
+    public bool downSplash;
 
     //Doble Salto
     public bool isOnGround;
@@ -36,14 +37,16 @@ public class PlayerController : MonoBehaviour
     //Municio
     public int rounds;
 
+    //Particles
+    public ParticleSystem DownCrash;
 
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
 
         //Max Health
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        currentHealth = maxHealth/2;
+        healthBar.SetHealth(currentHealth);
 
     }
 
@@ -90,9 +93,11 @@ public class PlayerController : MonoBehaviour
         {
             if (isOnGround == false)
             {
-                playerRigidbody.AddForce(Vector3.down * downForce);                                             
-            }
+                playerRigidbody.AddForce(Vector3.down * downForce);
 
+                downSplash = true;
+                
+            }
         }
 
         if ( horizontalInput < 0 && lookRight==true)
@@ -101,6 +106,8 @@ public class PlayerController : MonoBehaviour
             lookRight = false;
             lookLeft = true;
         }
+
+       
 
         if (horizontalInput > 0 && lookLeft == true)
         {
@@ -137,6 +144,11 @@ public class PlayerController : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        if(currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
     }
 
     private void OnTriggerEnter(Collider otherCollider)
@@ -161,7 +173,23 @@ public class PlayerController : MonoBehaviour
 
             speed = 7f;
         }
+        if (gameObject.CompareTag("player") && otherCollider.gameObject.CompareTag("ground") && downSplash==true)
+        {        
+            DownCrash = Instantiate(DownCrash, transform.position, DownCrash.transform.rotation);
+            DownCrash.Play();
+            downSplash = false;
+        }
+
+        if (gameObject.CompareTag("player") && otherCollider.gameObject.CompareTag("Enemy") && downSplash == true)
+        {
+            Vector3 offset = new Vector3(0, -0.5f, 0);
+            DownCrash = Instantiate(DownCrash, transform.position + offset, DownCrash.transform.rotation);
+            DownCrash.Play();
+            Destroy(otherCollider.gameObject);
+            downSplash = false;
+        }
     }
+  
 
     private IEnumerator CoolDown() //Cool Down del salto
     {

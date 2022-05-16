@@ -8,6 +8,7 @@ TagManager:
   - player
   - Money
   - Proyectil
+  - Enemy
   layers:
   - Default
   - TransparentFX

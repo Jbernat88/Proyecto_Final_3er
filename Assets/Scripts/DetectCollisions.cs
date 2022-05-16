@@ -19,9 +19,12 @@ public class DetectCollisions : MonoBehaviour
         {
             //Si la bala colisiona con un enemigo se destruyen ambos
             Destroy(gameObject);//Bala
-           
-
         }
-       
+        if (gameObject.CompareTag("Proyectil") && otherCollider.gameObject.CompareTag("Enemy"))
+        {
+            //Si la bala colisiona con un enemigo se destruyen ambos
+            Destroy(gameObject);//Bala
+            Destroy(otherCollider.gameObject);
+        }
     }  
 }
