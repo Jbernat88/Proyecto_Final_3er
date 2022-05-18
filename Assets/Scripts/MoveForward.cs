@@ -9,6 +9,6 @@ public class MoveForward : MonoBehaviour
     void Update()
     {
         //El objeto se mueve hacia delante constantemente
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 }
