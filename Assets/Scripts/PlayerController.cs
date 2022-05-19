@@ -40,8 +40,12 @@ public class PlayerController : MonoBehaviour
     //Particles
     public ParticleSystem DownCrash;
 
+    //Animaciones
+    private Animator animator;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
 
         //Max Health
@@ -53,10 +57,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(currentHealth);
-        Debug.Log(rounds);
-        Debug.Log("Salto" +doubleJump);
-        Debug.Log("Ground"+isOnGround);
+
+        Debug.Log(animator);
+        
         // Usamos los inputs del Input Manager
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
@@ -67,9 +70,15 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(Vector3.right * speed * Time.deltaTime * horizontalInput, Space.World);
 
-        
-        
+        if (horizontalInput > 0 && isOnGround)
+        {
+            animator.SetBool("IsMoving", true);
+        }
 
+        else
+        {
+            animator.SetBool("IsMoving", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

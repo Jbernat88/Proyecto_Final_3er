@@ -566,6 +566,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &444332084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f28a3dc6904279d4d9ee4681973d284a, type: 3}
+  m_PrefabInstance: {fileID: 755705662}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &444332085
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444332084}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 115fa56d144f74047ad0ade2959f62ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &444332086
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444332084}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.38243613, y: 2.030316, z: 0.41098008}
+  m_Center: {x: 0.0054172277, y: 1.0023652, z: 0.04836885}
 --- !u!1001 &755705662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,7 +676,8 @@ PrefabInstance:
         'LeftHandIndex2'\n\tTransform 'RightHandThumb2'\n\tand more ...\n\tFrom animation
         clip 'Drunk Idle Variation'"
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: f28a3dc6904279d4d9ee4681973d284a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f28a3dc6904279d4d9ee4681973d284a, type: 3}
 --- !u!1 &782264852
 GameObject:
