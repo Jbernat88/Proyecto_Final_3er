@@ -70,9 +70,13 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(Vector3.right * speed * Time.deltaTime * horizontalInput, Space.World);
 
-        if (horizontalInput > 0 && isOnGround)
+        if (horizontalInput < 0 || horizontalInput > 0)
         {
-            animator.SetBool("IsMoving", true);
+            if (isOnGround)
+            {
+                animator.SetBool("IsMoving", true);
+            }
+            
         }
 
         else
@@ -145,7 +149,14 @@ public class PlayerController : MonoBehaviour
 
             TakeDamage(10);
 
+            animator.SetBool("IsThrowing", true);
+
             //soundManager.SelecionAudio(0, 0.2f);
+        }
+
+        else
+        {
+            animator.SetBool("IsThrowing", false);
         }
 
         //Health

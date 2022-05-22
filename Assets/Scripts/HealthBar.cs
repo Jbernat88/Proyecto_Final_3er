@@ -7,6 +7,8 @@ public class HealthBar : MonoBehaviour
 {
     public Slider HealthSlider;
     public float energyLose = 1;
+    public Gradient gradient;
+    public Image fill;
 
     private void Start()
     {
@@ -16,6 +18,7 @@ public class HealthBar : MonoBehaviour
     public void SetHealth(int health)
     {
         HealthSlider.value = health;
+        fill.color = gradient.Evaluate(HealthSlider.normalizedValue);
     }
 
     public IEnumerator energyTimer()
@@ -26,6 +29,7 @@ public class HealthBar : MonoBehaviour
             HealthSlider.value -= energyLose;
         }
        
-
     }
+
+    
 }
