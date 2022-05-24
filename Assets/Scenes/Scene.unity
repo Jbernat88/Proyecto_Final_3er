@@ -738,7 +738,7 @@ MonoBehaviour:
   speed: 20
   turnspeed: 40
   jumpForce: 200
-  downForce: 2000
+  downForce: 1000
   downSplash: 0
   isOnGround: 0
   lookRight: 1

@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRigidbody;
 
     //Movimiento
-    public float speed = 20f;
+    public float speed = 10f;
     public float turnspeed = 40f;
     private float horizontalInput;
     private float verticalInput;
@@ -27,9 +27,10 @@ public class PlayerController : MonoBehaviour
     public GameObject proyectil;
     private bool IsCoolDownShot = true;
     public float shootSpeed = 4f;
+    public GameObject shootPivot;
 
     //Vida
-    public int maxHealth = 100;
+    public int maxHealth = 150;
     public int currentHealth;
     public HealthBar healthBar;
 
@@ -49,8 +50,10 @@ public class PlayerController : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
 
         //Max Health
-        currentHealth = maxHealth/2;
+        currentHealth = 75;
         healthBar.SetHealth(currentHealth);
+
+        
 
     }
 
@@ -91,7 +94,7 @@ public class PlayerController : MonoBehaviour
                 playerRigidbody.AddForce(Vector3.up * jumpForce);
                 isOnGround = false;
                 doubleJump = true;
-                speed = 5f;
+                
                 StartCoroutine(CoolDown());
             }
             else if (doubleJump == true)
@@ -100,6 +103,10 @@ public class PlayerController : MonoBehaviour
                 doubleJump = false;
             }            
 
+        }
+        while(isOnGround)
+        {
+            speed = 5f;
         }
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -141,7 +148,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) && IsCoolDownShot && rounds>0/*&& !GameOver*/)
         {
-            Instantiate(proyectil, transform.position, transform.rotation);
+            Instantiate(proyectil,shootPivot.transform.position, transform.rotation);
 
             StartCoroutine(CoolDownShot());
 
@@ -149,14 +156,9 @@ public class PlayerController : MonoBehaviour
 
             TakeDamage(10);
 
-            animator.SetBool("IsThrowing", true);
+            animator.SetTrigger("IsThrow");
 
             //soundManager.SelecionAudio(0, 0.2f);
-        }
-
-        else
-        {
-            animator.SetBool("IsThrowing", false);
         }
 
         //Health
@@ -168,6 +170,11 @@ public class PlayerController : MonoBehaviour
         if(currentHealth < 0)
         {
             currentHealth = 0;
+        }
+
+        if(currentHealth < 75)
+        {
+            speed = speed / 2;
         }
     }
 
@@ -191,16 +198,20 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             doubleJump = true;
 
-            speed = 7f;
+            
+           
         }
-        if (gameObject.CompareTag("player") && otherCollider.gameObject.CompareTag("ground") && downSplash==true)
-        {        
+
+
+        if (otherCollider.gameObject.CompareTag("ground") && downSplash==true)
+        {
+            
             DownCrash = Instantiate(DownCrash, transform.position, DownCrash.transform.rotation);
             DownCrash.Play();
             downSplash = false;
         }
 
-        if (gameObject.CompareTag("player") && otherCollider.gameObject.CompareTag("Enemy") && downSplash == true)
+        if (otherCollider.gameObject.CompareTag("Enemy") && downSplash == true)
         {
             Vector3 offset = new Vector3(0, -0.5f, 0);
             DownCrash = Instantiate(DownCrash, transform.position + offset, DownCrash.transform.rotation);
